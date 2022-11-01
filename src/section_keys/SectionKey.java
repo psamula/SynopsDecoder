@@ -26,8 +26,8 @@ public class SectionKey {
         this.name = name;
     }
 
-    public List<Integer> getCharsPerInformation() {
-        return charsPerInformation;
+    public List<SubkeyDetails> getSubkeyDetails() {
+        return this.subkeyDetails;
     }
 
     public void setCharsPerInformation(List<Integer> charsPerInformation) {

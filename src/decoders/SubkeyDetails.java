@@ -15,4 +15,20 @@ public class SubkeyDetails
         this.charsPerSubkey = charsPerSubkey;
         this.directValue = directValue;
     }
+
+    public Integer getCharsPerSubkey() {
+        return charsPerSubkey;
+    }
+
+    public void setCharsPerSubkey(Integer charsPerSubkey) {
+        this.charsPerSubkey = charsPerSubkey;
+    }
+
+    public boolean isDirectValue() {
+        return directValue;
+    }
+
+    public void setDirectValue(boolean directValue) {
+        this.directValue = directValue;
+    }
 }
