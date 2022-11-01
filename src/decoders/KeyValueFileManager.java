@@ -12,9 +12,9 @@ public class KeyValueFileManager {
     private Map<String, SectionKey> indexedKeys;
     private Map<String/*File*/, Map<String, String>> KeyValueDerivedFromFile;
 
-    private void createKeyValueFromFiles() {
-        for (File f : files) {
-
+    private void createKeyValueFromFiles(int startSectionIndex, int lastSectionIndex) {
+        for (int i = startSectionIndex; i <= lastSectionIndex; i++) {
+           var section = indexedKeys.get(i);
         }
     }
 }
