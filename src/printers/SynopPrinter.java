@@ -21,7 +21,7 @@ public class SynopPrinter {
                 System.out.println("\nKryterium: " + sectionKey.getName() + " - (klucz nr " + (i + 1) + ")");
                 System.out.println("\nWartosc: \n" + synopsMeasurement.getNonIndexedKeysDecoded().getOrDefault("" + i, "---- BRAK -----"));
             }
-            System.out.println("-------------------------------------------------------");
+            System.out.println("--------------------------------------------------------");
         }
         for (int i = 0; i < indexedKeysMap.size(); i++) {
             var sectionKey = indexedKeysMap.getOrDefault("" + i, null);
@@ -31,7 +31,7 @@ public class SynopPrinter {
                 System.out.println("\nKryterium: " + sectionKey.getName() + " - (klucz nr " + (i + nonIndexedKeysMap.size()) + ")");
                 System.out.println("\nWartosc: \n" + synopsMeasurement.getKeysDecoded().getOrDefault("" + i, "---- BRAK -----"));
             }
-            System.out.println("-------------------------------------------------------");
+            System.out.println("--------------------------------------------------------");
         }
     }
 }
