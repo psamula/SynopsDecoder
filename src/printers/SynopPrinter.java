@@ -16,10 +16,10 @@ public class SynopPrinter {
         for (int i = -1; i < nonIndexedKeysMap.size() - 1; i++) {
             var sectionKey = nonIndexedKeysMap.getOrDefault("" + i, null);
             if (sectionKey == null) {
-                System.out.println("Break sekcji nr " + i);
+                System.out.println("Brak sekcji nr " + i);
             } else {
                 System.out.println("\nKryterium: " + sectionKey.getName() + " - (klucz nr " + (i + 1) + ")");
-                System.out.println("\nWartosc: : \n" + synopsMeasurement.getNonIndexedKeysDecoded().getOrDefault("" + i, "---- BRAK -----"));
+                System.out.println("\nWartosc: \n" + synopsMeasurement.getNonIndexedKeysDecoded().getOrDefault("" + i, "---- BRAK -----"));
             }
             System.out.println("-------------------------------------------------------");
         }

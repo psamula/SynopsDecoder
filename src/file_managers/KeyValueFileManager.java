@@ -26,7 +26,7 @@ public class KeyValueFileManager {
                 .filter(e -> e.getValue().getSubkeyDetails().stream().anyMatch(b -> b.isDirectValue() == false))
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> {
                     try {
-                        return createKeyValueFromFile(String.format("section_keys/unindexed/uk%s.txt", e.getKey()));
+                        return createKeyValueFromFile(String.format("src/section_keys_descriptions/unindexed/uk%s.txt", e.getKey()));
                     } catch (FileNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -36,7 +36,7 @@ public class KeyValueFileManager {
                 .filter(e -> e.getValue().getSubkeyDetails().stream().anyMatch(b -> b.isDirectValue() == false))
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> {
                     try {
-                        return createKeyValueFromFile(String.format("section_keys/s1k%s.txt", e.getKey()));
+                        return createKeyValueFromFile(String.format("src/section_keys_descriptions/s1k%s.txt", e.getKey()));
                     } catch (FileNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
