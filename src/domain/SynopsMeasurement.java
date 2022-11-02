@@ -1,12 +1,10 @@
 package domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SynopsMesaurement {
+public class SynopsMeasurement {
     private LocalDate created;
     private Map<String, String> nonIndexedKeysDecoded = new HashMap<>();
     private Map<String, String> keysDecoded = new HashMap<>();
@@ -33,5 +31,9 @@ public class SynopsMesaurement {
 
     public void setKeysDecoded(Map<String, String> keysDecoded) {
         this.keysDecoded = keysDecoded;
+    }
+
+    public String toString() {
+        return this.nonIndexedKeysDecoded.values() + "\n\n\n\n" + this.keysDecoded.values();
     }
 }

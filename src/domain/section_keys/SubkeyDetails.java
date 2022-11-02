@@ -1,6 +1,4 @@
-package section_keys;
-
-import java.util.List;
+package domain.section_keys;
 
 public class SubkeyDetails
 {

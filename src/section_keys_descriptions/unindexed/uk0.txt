@@ -1,0 +1,4 @@
+0 - prędkość wiatru oszacowano w m/s
+1 - prędkość wiatru zmierzono anemometrem w m/s
+3 - prędkość wiatru oszacowano w węzłach
+4 - prędkość wiatru zmierzono anemometrem w węzłach

@@ -1,7 +1,7 @@
-package decoders;
+package dao;
 
-import section_keys.SectionKey;
-import section_keys.SubkeyDetails;
+import domain.section_keys.SectionKey;
+import domain.section_keys.SubkeyDetails;
 
 import java.util.*;
 
@@ -14,8 +14,9 @@ public class SynopsKeysProvider {
     public SynopsKeysProvider() {
         this.indexedKeysList = new ArrayList<>();
         this.nonIndexedKeysList = new ArrayList<>();
-        fillSectionKeysList();
+        fillAllSectionKeysLists();
         fillIndexedKeysMap();
+        fillNonIndexedKeysMap();
     }
 
     public List<SectionKey> getNonIndexedKeysList() {
@@ -39,18 +40,21 @@ public class SynopsKeysProvider {
     }
     private void fillNonIndexedKeysMap() {
         this.nonIndexedKeysMap = new HashMap<>();
-        for(int i = 0; i < this.nonIndexedKeysList.size(); i++) {
-            nonIndexedKeysMap.put(i + "", indexedKeysList.get(i));
+        for (int i = 0; i < this.nonIndexedKeysList.size() - 1; i++) {
+            nonIndexedKeysMap.put(i + "", nonIndexedKeysList.get(i));
         }
+        nonIndexedKeysMap.put(-1 + "", nonIndexedKeysList.get(nonIndexedKeysList.size() - 1));
     }
 
     private void fillIndexedKeysMap() {
         this.indexedKeysMap = new HashMap<>();
-        for (int i = 0; i < this.indexedKeysList.size(); i++) {
+        for (int i = 0; i < this.indexedKeysList.size()/* - 1*/; i++) {
             indexedKeysMap.put(i + "", indexedKeysList.get(i));
         }
+        //indexedKeysMap.put(-1 + "", indexedKeysList.get(indexedKeysList.size() - 1));
     }
-    public void fillSectionKeysList() {
+
+    public void fillAllSectionKeysLists() {
         var us0k0 = new SectionKey(
                 "identyfikator rodzaju stacji",
                 asList(new SubkeyDetails(4)));
@@ -89,7 +93,7 @@ public class SynopsKeysProvider {
                 asList(new SubkeyDetails(1, false), new SubkeyDetails(3)));
         var s1k6 = new SectionKey(
                 "suma opadu",
-                asList(new SubkeyDetails(3, false), new SubkeyDetails(1, false)));
+                asList(new SubkeyDetails(3, true), new SubkeyDetails(1, false)));
         var s1k7 = new SectionKey(
                 "stan pogody bieżącej i ubiegłej",
                 asList(new SubkeyDetails(2, false), new SubkeyDetails(2, false)));
@@ -101,7 +105,9 @@ public class SynopsKeysProvider {
                 "aktualny czas obserwacji, gdy rzeczywisty czas obserwacji różni się o więcej niż 10 minut od standardowego czasu GG podanego w sekcji 0",
                 asList(new SubkeyDetails(2), new SubkeyDetails(2)));
 
-        this.nonIndexedKeysList.addAll(Arrays.stream((new SectionKey[] {us0k0, us0k1, us0k2, us1k0, us1k1})).toList());
+        this.nonIndexedKeysList.addAll(Arrays.stream((new SectionKey[] {us0k1, us0k2, us1k0, us1k1})).toList());
+        this.nonIndexedKeysList.add(us0k0);
+
         this.indexedKeysList.addAll(Arrays.stream((new SectionKey[] {s1k0, s1k1, s1k2, s1k3, s1k4, s1k5, s1k6, s1k7, s1k8, s1k9})).toList());
     }
     public static <T> List<T> asList(T... args) {

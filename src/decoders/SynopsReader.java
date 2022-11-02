@@ -1,15 +1,15 @@
 package decoders;
 
-import section_keys.SectionKey;
-import section_keys.SubkeyDetails;
+import dao.SynopsKeysProvider;
+import file_managers.KeyValueFileManager;
+import domain.section_keys.SectionKey;
+import domain.section_keys.SubkeyDetails;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class SynopsReader {
-    private final SynopsKeysProvider keysProvider;
     private final KeyValueFileManager keyValueFileManager;
+    private final SynopsKeysProvider keysProvider;
 
     public SynopsReader(KeyValueFileManager keyValueFileManager, SynopsKeysProvider keysProvider) {
         this.keyValueFileManager = keyValueFileManager;
@@ -21,9 +21,9 @@ public class SynopsReader {
     public String decodeSectionKey(String sectionKeyId, String encodedKeyStr, boolean isIndexed) {
         SectionKey sectionKey;
         if (isIndexed) {
-            sectionKey = this.keysProvider.getIndexedKeysMap().get(sectionKeyId);
+            sectionKey = this.keysProvider.getIndexedKeysMap().getOrDefault(sectionKeyId, null);
         } else{
-            sectionKey = this.keysProvider.getNonIndexedKeysMap().get(sectionKeyId);
+            sectionKey = this.keysProvider.getNonIndexedKeysMap().getOrDefault(sectionKeyId, null);
         }
         var subkeys = sectionKey.getSubkeyDetails();
 
@@ -33,16 +33,18 @@ public class SynopsReader {
         for (var sbk : subkeys) {
             var wordToTranslate = new StringBuilder(); //formed of subkey
             int charsPerInfo = sbk.getCharsPerSubkey();
-            boolean directValue = sbk.isDirectValue();
             var encodedKey = encodedKeyStr.toCharArray();
             for(int i = 0; i < charsPerInfo; i++) {
                 wordToTranslate.append(encodedKey[charInEncodedStringTracker]);
                 charInEncodedStringTracker++;
             }
             String translation = translate(sectionKeyId, wordToTranslate.toString(), sbk, isIndexed);
-            translatedSection.append(translation + "\n");
+            if (translation.equals("")) {
+                continue;
+            }
+            translatedSection.append(translation).append(", ");
         }
-        return translatedSection.toString();
+        return translatedSection.toString().substring(0, translatedSection.length() - 2);
     }
 
     private String translate(String sectionKeyId, String wordToTranslate, SubkeyDetails subkey, boolean isIndexed) {
@@ -56,7 +58,7 @@ public class SynopsReader {
         else {
             sectionMap = this.keyValueFileManager.getDecoderMapForNonIndexedSection(sectionKeyId);
         }
-        var translation = sectionMap.get(wordToTranslate);
+        var translation = sectionMap.getOrDefault(wordToTranslate, null);
 
         return (translation == null || sectionMap == null) ? "" : translation;
     }
