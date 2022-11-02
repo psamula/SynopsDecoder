@@ -12,15 +12,44 @@ import java.util.stream.Collectors;
 
 public class KeyValueFileManager {
     private Map<String, File> filesMap;
-    private List<SectionKey> nonIndexedKeys;
+    private Map<String, SectionKey> nonIndexedKeys;
     private Map<String, SectionKey> indexedKeys;
-    private Map<String/*File*/, Map<String, String>> keyValueDerivedFromFile;
+    private Map<String, Map<String, String>> keyValueDerivedFromFile;
+    private Map<String, Map<String, String>> keyValueNonIndexedDerivedFromFile;
     private Scanner sc;
-    List<Integer> indexesOfSectionsWithFiles
-    public KeyValueFileManager(Scanner sc) {
+
+    public Map<String, Map<String, String>> getKeyValueDerivedFromFile() {
+        return keyValueDerivedFromFile;
+    }
+
+    public void setKeyValueDerivedFromFile(Map<String, Map<String, String>> keyValueDerivedFromFile) {
+        this.keyValueDerivedFromFile = keyValueDerivedFromFile;
+    }
+
+    public Map<String, Map<String, String>> getKeyValueNonIndexedDerivedFromFile() {
+        return keyValueNonIndexedDerivedFromFile;
+    }
+
+    public void setKeyValueNonIndexedDerivedFromFile(Map<String, Map<String, String>> keyValueNonIndexedDerivedFromFile) {
+        this.keyValueNonIndexedDerivedFromFile = keyValueNonIndexedDerivedFromFile;
+    }
+
+    private final int INDEX_OF_LAST_NON_INDEXED_KEY = 4;
+
+    public KeyValueFileManager(Map<String, SectionKey> nonIndexedKeys, Map<String, SectionKey> indexedKeys) {
+        this.nonIndexedKeys = nonIndexedKeys;
+        this.indexedKeys = indexedKeys;
     }
 
     private void assignMapToSectionKey() throws FileNotFoundException {
+        var nonIndexedSectionsWithFilesSupport = this.nonIndexedKeys.entrySet().stream()
+                .filter(e -> e.getValue().getSubkeyDetails().stream().anyMatch(b -> b.isDirectValue() == false))
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < nonIndexedSectionsWithFilesSupport.size(); i++) {
+            this.keyValueNonIndexedDerivedFromFile.put("" + i, createKeyValueFromFile(String.format("uk%s.txt", i)));
+        }
+
        var sectionsWithFilesSupport =  this.indexedKeys.entrySet().stream()
                 .filter(e -> e.getValue().getSubkeyDetails().stream().anyMatch(b -> b.isDirectValue() == false))
                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -37,5 +66,11 @@ public class KeyValueFileManager {
             mapFromFile.put(parts[0], parts[1]);
         }
         return mapFromFile;
+    }
+    public Map<String, String> getDecoderMapForNonIndexedSection(String key) {
+        return keyValueNonIndexedDerivedFromFile.get(key);
+    }
+    public Map<String, String> getDecoderMapForSection(String key) {
+        return keyValueDerivedFromFile.get(key);
     }
 }

@@ -1,6 +1,7 @@
 package decoders;
 
 import section_keys.SectionKey;
+import section_keys.SubkeyDetails;
 
 import java.util.*;
 
@@ -8,6 +9,7 @@ public class SynopsKeysProvider {
     private List<SectionKey> indexedKeysList;
     private List<SectionKey> nonIndexedKeysList;
     private Map<String, SectionKey> indexedKeysMap;
+    private HashMap<String, SectionKey> nonIndexedKeysMap;
 
     public SynopsKeysProvider() {
         this.indexedKeysList = new ArrayList<>();
@@ -20,6 +22,10 @@ public class SynopsKeysProvider {
         return nonIndexedKeysList ;
     }
 
+    public HashMap<String, SectionKey> getNonIndexedKeysMap() {
+        return nonIndexedKeysMap;
+    }
+
     public void setNonIndexedKeysList(List<SectionKey> nonIndexedKeysList) {
         this.nonIndexedKeysList = nonIndexedKeysList;
     }
@@ -30,6 +36,12 @@ public class SynopsKeysProvider {
 
     public void setIndexedKeysMap(Map<String, SectionKey> indexedKeysMap) {
         this.indexedKeysMap = indexedKeysMap;
+    }
+    private void fillNonIndexedKeysMap() {
+        this.nonIndexedKeysMap = new HashMap<>();
+        for(int i = 0; i < this.nonIndexedKeysList.size(); i++) {
+            nonIndexedKeysMap.put(i + "", indexedKeysList.get(i));
+        }
     }
 
     private void fillIndexedKeysMap() {

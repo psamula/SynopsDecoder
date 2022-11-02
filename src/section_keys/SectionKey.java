@@ -1,7 +1,5 @@
 package section_keys;
 
-import decoders.SubkeyDetails;
-
 import java.util.List;
 
 public class SectionKey {
